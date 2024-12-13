@@ -1,0 +1,177 @@
+.tarot-chat {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  
+  .tarot-prediction {
+    @include glass-effect;
+    padding: $spacing-large;
+    border-radius: $border-radius-lg;
+    position: relative;
+    overflow: hidden;
+    
+    // Мистический фоновый узор
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        circle at 50% 50%, 
+        rgba($color-primary, 0.1) 0%, 
+        transparent 70%
+      );
+      opacity: 0.5;
+      z-index: -1;
+    }
+
+    &__loader {
+      @include flex-center;
+      flex-direction: column;
+      min-height: 300px;
+      position: relative;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        background: radial-gradient(
+          circle,
+          rgba($color-primary, 0.2) 0%,
+          transparent 70%
+        );
+        animation: pulse 2s infinite;
+      }
+    }
+
+    &__crystal {
+      font-size: 4rem;
+      margin-bottom: $spacing-base;
+      animation: float 3s ease-in-out infinite;
+      position: relative;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 10px;
+        background: radial-gradient(
+          ellipse,
+          rgba($color-primary, 0.3) 0%,
+          transparent 70%
+        );
+        animation: shadow 3s ease-in-out infinite;
+      }
+    }
+
+    &__loading-text {
+      color: $color-text-secondary;
+      font-style: italic;
+      text-align: center;
+      animation: glow 2s ease-in-out infinite;
+    }
+
+    &__content {
+      position: relative;
+    }
+
+    &__title {
+      text-align: center;
+      color: $color-primary;
+      font-size: 1.8rem;
+      margin-bottom: $spacing-large;
+      text-shadow: 0 0 10px rgba($color-primary, 0.5);
+    }
+
+    &__text {
+      color: $color-text-primary;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: $spacing-large;
+      
+      // Стили для абзацев
+      p {
+        margin-bottom: $spacing-base;
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+      
+      // Декоративные кавычки
+      &::before,
+      &::after {
+        content: '"';
+        position: absolute;
+        font-size: 4rem;
+        color: rgba($color-primary, 0.2);
+        line-height: 1;
+      }
+      
+      &::before {
+        top: 0;
+        left: $spacing-base;
+      }
+      
+      &::after {
+        bottom: -20px;
+        right: $spacing-base;
+      }
+    }
+
+    &__button {
+      @include node-button;
+      display: block;
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes shadow {
+  0%, 100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateX(-50%) scale(0.8);
+    opacity: 0.1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.3;
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+} 

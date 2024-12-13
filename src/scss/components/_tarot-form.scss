@@ -1,0 +1,64 @@
+.tarot-form {
+  &__group {
+    margin-bottom: $spacing-large;
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: $spacing-small;
+    color: $color-text-secondary;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  &__input,
+  &__textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid $color-border;
+    border-radius: $border-radius;
+    background: rgba($color-background-dark, 0.5);
+    color: $color-text-primary;
+    transition: $transition-base;
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+      box-shadow: 0 0 0 3px rgba($color-primary, 0.2);
+      background: rgba($color-background-dark, 0.8);
+    }
+
+    &::placeholder {
+      color: rgba($color-text-secondary, 0.5);
+    }
+  }
+
+  &__textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  &__submit {
+    width: 100%;
+    padding: 1rem;
+    margin-top: $spacing-large;
+    background: $gradient-mystic;
+    color: $color-text-primary;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: $border-radius;
+    transition: $transition-bounce;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: $shadow-glow;
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+} 

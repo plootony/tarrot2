@@ -1,0 +1,159 @@
+.tarot-table {
+  padding: $spacing-large;
+  background: $color-background;
+  border-radius: $border-radius-lg;
+  position: relative;
+  overflow: hidden;
+  
+  // Эффект мистического стола
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      linear-gradient(rgba($color-primary, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba($color-primary, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.3;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: $spacing-base;
+    padding: $spacing-large;
+    position: relative;
+  }
+
+  &__title {
+    color: $color-text-primary;
+    text-align: center;
+    margin-bottom: $spacing-base;
+    font-size: 1.8rem;
+    text-shadow: 0 0 10px rgba($color-primary, 0.5);
+  }
+
+  &__description {
+    color: $color-text-secondary;
+    text-align: center;
+    margin-bottom: $spacing-large;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.tarot-card {
+  position: relative;
+  aspect-ratio: 3/4;
+  perspective: 1000px;
+  cursor: pointer;
+  
+  &__inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  }
+  
+  &__front,
+  &__back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: $border-radius;
+    background: $gradient-dark;
+    box-shadow: $shadow-md;
+    overflow: hidden;
+    border: 1px solid rgba($color-primary, 0.3);
+    
+    // Мистический узор на рубашке
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 10px,
+          rgba($color-primary, 0.1) 10px,
+          rgba($color-primary, 0.1) 20px
+        );
+      opacity: 0.3;
+    }
+
+    // Светящаяся рамка
+    &::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      background: $gradient-mystic;
+      opacity: 0.5;
+      z-index: -1;
+    }
+  }
+  
+  &__front {
+    transform: rotateY(180deg);
+    background: $gradient-primary;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+    mix-blend-mode: luminosity;
+  }
+  
+  &__number {
+    position: absolute;
+    top: $spacing-small;
+    left: $spacing-small;
+    background: rgba($color-background-dark, 0.8);
+    color: $color-primary;
+    padding: 0.25rem 0.5rem;
+    border-radius: $border-radius-sm;
+    font-size: 0.8rem;
+    font-weight: 500;
+    z-index: 1;
+  }
+  
+  &:hover {
+    .tarot-card__inner {
+      transform: translateY(-10px);
+      box-shadow: $shadow-glow;
+    }
+  }
+  
+  &--shuffling {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  &--visible {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0);
+  }
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+} 

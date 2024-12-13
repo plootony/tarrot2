@@ -1,0 +1,80 @@
+.tarot-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba($color-background-dark, 0.95);
+  @include flex-center;
+  z-index: 1000;
+  padding: $spacing-base;
+  backdrop-filter: blur(10px);
+
+  &__content {
+    width: 100%;
+    max-width: 500px;
+    background: $color-background;
+    border: 1px solid rgba($color-primary, 0.3);
+    border-radius: $border-radius-lg;
+    padding: $spacing-large;
+    box-shadow: $shadow-lg;
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: $gradient-dark;
+      opacity: 0.7;
+      z-index: -1;
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      background: $gradient-mystic;
+      z-index: -2;
+      opacity: 0.5;
+      animation: glow 3s ease-in-out infinite;
+    }
+  }
+
+  &__title {
+    color: $color-text-primary;
+    text-align: center;
+    margin-bottom: $spacing-large;
+    font-size: 1.8rem;
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba($color-primary, 0.5);
+  }
+
+  &__button {
+    @include node-button;
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: $shadow-glow;
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  &__actions {
+    margin-top: $spacing-large;
+    text-align: center;
+  }
+}
+
+@keyframes glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.8; }
+} 

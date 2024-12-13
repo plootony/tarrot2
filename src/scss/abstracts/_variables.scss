@@ -1,0 +1,53 @@
+// Colors
+$color-primary: #9147ff;     // Mystic purple
+$color-secondary: #6441a5;   // Deep purple
+$color-tertiary: #2c1810;    // Dark brown
+$color-background: #0a0a0a;  // Almost black
+$color-background-dark: #000000;
+$color-text-primary: #ffffff;
+$color-text-secondary: #9f9f9f;
+$color-accent: #ff4ecd;      // Neon pink
+$color-border: #333333;
+$color-success: #00ff9d;     // Mystic green
+$color-warning: #ffb800;     // Mystic amber
+$color-error: #ff2d55;       // Mystic red
+
+// Gradients
+$gradient-primary: linear-gradient(145deg, $color-primary, $color-secondary);
+$gradient-hover: linear-gradient(145deg, lighten($color-primary, 5%), lighten($color-secondary, 5%));
+$gradient-active: linear-gradient(145deg, darken($color-primary, 5%), darken($color-secondary, 5%));
+$gradient-dark: linear-gradient(145deg, $color-background, $color-background-dark);
+$gradient-mystic: linear-gradient(to right, #9147ff, #ff4ecd);
+
+// Shadows
+$shadow-sm: 0 2px 4px rgba(145, 71, 255, 0.1);
+$shadow-md: 0 4px 8px rgba(145, 71, 255, 0.2);
+$shadow-lg: 0 8px 16px rgba(145, 71, 255, 0.3);
+$shadow-hover: 0 0 25px rgba(145, 71, 255, 0.4);
+$shadow-glow: 0 0 15px rgba(255, 78, 205, 0.5);
+
+// Typography
+$font-family-base: system-ui, -apple-system, 'Segoe UI', Roboto, Ubuntu, Cantarell, 'Noto Sans', sans-serif;
+$font-size-base: 1rem;
+$line-height-base: 1.6;
+
+// Spacing
+$spacing-base: 1rem;
+$spacing-large: 2rem;
+$spacing-small: 0.5rem;
+
+// Borders
+$border-radius-sm: 4px;
+$border-radius: 8px;
+$border-radius-lg: 12px;
+$border-width: 2px;
+
+// Transitions
+$transition-base: all 0.2s ease;
+$transition-slow: all 0.4s ease;
+$transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+// Breakpoints
+$breakpoint-mobile: 480px;
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1024px; 

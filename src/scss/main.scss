@@ -1,0 +1,18 @@
+// Abstracts
+@import '@/scss/abstracts/variables';
+@import '@/scss/abstracts/mixins';
+@import '@/scss/abstracts/functions';
+
+// Base
+@import '@/scss/base/reset';
+@import '@/scss/base/typography';
+@import '@/scss/base/base';
+
+// Components
+@import '@/scss/components/tarot-chat';
+@import '@/scss/components/tarot-cards';
+@import '@/scss/components/tarot-modal';
+@import '@/scss/components/tarot-form';
+
+// Layout
+@import '@/scss/layout/app'; 
