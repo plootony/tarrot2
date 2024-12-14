@@ -27,7 +27,7 @@ export default async function handler(req, res) {
 
   try {
     const controller = new AbortController()
-    const timeout = setTimeout(() => controller.abort(), 20000) // уменьшаем до 20 секунд
+    const timeout = setTimeout(() => controller.abort(), 40000) // увеличиваем до 40 секунд
 
     console.log('📡 Sending request to X.AI API...')
     const response = await fetch('https://api.x.ai/v1/chat/completions', {
@@ -38,7 +38,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify(req.body),
       signal: controller.signal,
-      timeout: 18000 // добавляем явный таймаут в 18 секунд
+      timeout: 38000 // увеличиваем до 38 секунд
     }).finally(() => clearTimeout(timeout))
 
     console.log('📥 X.AI Response Status:', response.status)

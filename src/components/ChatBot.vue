@@ -74,7 +74,7 @@ async function providePrediction() {
 
     // Добавляем Promise.race для таймаута на клиенте
     const timeoutPromise = new Promise((_, reject) => {
-      setTimeout(() => reject(new Error('CLIENT_TIMEOUT')), 25000)
+      setTimeout(() => reject(new Error('CLIENT_TIMEOUT')), 40000)
     })
 
     const fetchPromise = fetch('/api/chat', {
