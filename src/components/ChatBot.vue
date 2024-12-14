@@ -66,6 +66,12 @@ async function providePrediction() {
   isLoading.value = true
 
   try {
+    console.log('📤 Sending request with data:', {
+      model: 'grok-beta',
+      messages: messages.value,
+      temperature: 0.9
+    })
+
     const response = await fetch('/api/chat', {
       method: 'POST',
       headers: {
@@ -78,7 +84,9 @@ async function providePrediction() {
       })
     })
 
+    console.log('📥 Response status:', response.status)
     const data = await response.json()
+    console.log('📄 Response data:', data)
     
     if (data.error) {
       throw new Error(data.error)
@@ -86,7 +94,7 @@ async function providePrediction() {
     
     prediction.value = data.choices[0].message.content
   } catch (error) {
-    console.error('Error:', error)
+    console.error('❌ Error:', error)
     prediction.value = 'Карты сейчас молчат. Пожалуйста, попробуйте еще раз через некоторое время.'
   } finally {
     isLoading.value = false
