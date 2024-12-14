@@ -72,7 +72,12 @@ async function providePrediction() {
       temperature: 0.9
     })
 
-    const response = await fetch('/api/chat', {
+    // Добавляем Promise.race для таймаута на клиенте
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('CLIENT_TIMEOUT')), 25000)
+    })
+
+    const fetchPromise = fetch('/api/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -81,30 +86,53 @@ async function providePrediction() {
         model: 'grok-beta',
         messages: messages.value,
         temperature: 0.9
-      }),
-      timeout: 30000
+      })
     })
 
+    const response = await Promise.race([fetchPromise, timeoutPromise])
     console.log('📥 Response status:', response.status)
-    
-    if (!response.ok) {
-      const errorData = await response.json()
-      throw new Error(errorData.error || 'Неизвестная ошибка')
+
+    // Пробуем прочитать тело ответа как текст сначала
+    const responseText = await response.text()
+    console.log('📄 Raw response:', responseText)
+
+    let data
+    try {
+      data = JSON.parse(responseText)
+    } catch (e) {
+      console.error('❌ JSON Parse Error:', e)
+      throw new Error('INVALID_RESPONSE')
     }
 
-    const data = await response.json()
-    console.log('📄 Response data:', data)
-    
+    if (!response.ok || data.error) {
+      throw new Error(data.error || 'API_ERROR')
+    }
+
     if (!data.choices?.[0]?.message?.content) {
-      throw new Error('Некорректный формат ответа')
+      throw new Error('INVALID_FORMAT')
     }
     
     prediction.value = data.choices[0].message.content
   } catch (error) {
     console.error('❌ Error:', error)
-    prediction.value = error.message === 'Превышено время ожидания ответа'
-      ? 'Карты задумались слишком надолго. Пожалуйста, попробуйте еще раз.'
-      : 'Карты сейчас молчат. Пожалуйста, попробуйте еще раз через некоторое время.'
+    
+    // Обработка различных типов ошибок
+    switch(error.message) {
+      case 'CLIENT_TIMEOUT':
+        prediction.value = 'Карты задумались слишком надолго. Пожалуйста, попробуйте еще раз.'
+        break
+      case 'INVALID_RESPONSE':
+        prediction.value = 'Получен некорректный ответ. Пожалуйста, попробуйте еще раз.'
+        break
+      case 'INVALID_FORMAT':
+        prediction.value = 'Карты ответили непонятно. Пожалуйста, попробуйте еще раз.'
+        break
+      case 'API_ERROR':
+        prediction.value = 'Произошла ошибка при обращении к картам. Пожалуйста, попробуйте позже.'
+        break
+      default:
+        prediction.value = 'Карты сейчас молчат. Пожалуйста, попробуйте еще раз через некоторое время.'
+    }
   } finally {
     isLoading.value = false
   }

@@ -26,9 +26,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Добавляем таймаут для fetch
     const controller = new AbortController()
-    const timeout = setTimeout(() => controller.abort(), 25000) // 25 секунд
+    const timeout = setTimeout(() => controller.abort(), 20000) // уменьшаем до 20 секунд
 
     console.log('📡 Sending request to X.AI API...')
     const response = await fetch('https://api.x.ai/v1/chat/completions', {
@@ -38,7 +37,8 @@ export default async function handler(req, res) {
         'Authorization': `Bearer ${process.env.XAI_API_KEY}`
       },
       body: JSON.stringify(req.body),
-      signal: controller.signal
+      signal: controller.signal,
+      timeout: 18000 // добавляем явный таймаут в 18 секунд
     }).finally(() => clearTimeout(timeout))
 
     console.log('📥 X.AI Response Status:', response.status)
@@ -63,16 +63,15 @@ export default async function handler(req, res) {
       stack: error.stack
     })
 
-    // Специальная обработка ошибки таймаута
-    if (error.name === 'AbortError') {
+    if (error.name === 'AbortError' || error.type === 'request-timeout') {
       return res.status(504).json({ 
-        error: 'Превышено время ожидания ответа',
-        details: 'Пожалуйста, попробуйте еще раз'
+        error: 'TIMEOUT',
+        details: 'Превышено время ожидания ответа'
       })
     }
 
     return res.status(500).json({ 
-      error: 'Произошла ошибка при получении предсказания',
+      error: 'API_ERROR',
       details: error.message
     })
   }
