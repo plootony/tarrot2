@@ -7,6 +7,10 @@
   padding: $spacing-base;
   backdrop-filter: blur(10px);
 
+  @include responsive(mobile) {
+    padding: $spacing-small;
+  }
+
   &__content {
     width: 100%;
     max-width: 500px;
@@ -17,6 +21,10 @@
     box-shadow: $shadow-lg;
     position: relative;
     overflow: hidden;
+    
+    @include responsive(mobile) {
+      padding: $spacing-base;
+    }
     
     &::before {
       content: '';
@@ -45,10 +53,15 @@
     font-size: 1.8rem;
     font-weight: 600;
     text-shadow: 0 0 10px rgba($color-primary, 0.5);
+    
+    @include responsive(mobile) {
+      font-size: 1.5rem;
+      margin-bottom: $spacing-base;
+    }
   }
 
   &__button {
-    @include node-button;
+    @include mystic-button;
     display: block;
     width: 100%;
     max-width: 300px;
@@ -57,6 +70,12 @@
     font-size: 1.1rem;
     text-transform: uppercase;
     letter-spacing: 1px;
+    
+    @include responsive(mobile) {
+      max-width: 100%;
+      padding: $spacing-base;
+      font-size: 1rem;
+    }
     
     &:hover {
       transform: translateY(-2px);
