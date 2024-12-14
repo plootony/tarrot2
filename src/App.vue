@@ -7,7 +7,6 @@ onMounted(() => {
   console.log(`🔮 Tarot App Version: ${APP_VERSION}`)
   console.log(`📅 Build Date: ${BUILD_DATE}`)
   console.log('🌐 Environment:', import.meta.env.MODE)
-  console.log('🔗 API URL:', import.meta.env.VITE_XAI_API_URL)
 })
 </script>
 

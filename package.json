@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "VITE_BUILD_DATE=$(date -u) vite build",
+    "build": "vite build",
     "preview": "vite preview",
-    "vercel-build": "VITE_BUILD_DATE=$(date -u) vite build"
+    "vercel-build": "vite build"
   },
   "dependencies": {
     "vue": "^3.5.13",

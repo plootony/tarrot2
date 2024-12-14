@@ -30,7 +30,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    console.log('📤 Sending request to X.AI API...')
     const response = await fetch('https://api.x.ai/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -40,8 +39,6 @@ export default async function handler(req, res) {
       body: JSON.stringify(req.body)
     })
 
-    console.log('📥 X.AI API Response status:', response.status)
-
     if (!response.ok) {
       const errorData = await response.text()
       console.error('❌ X.AI API Error:', errorData)
@@ -49,7 +46,6 @@ export default async function handler(req, res) {
     }
 
     const data = await response.json()
-    console.log('✅ Received valid response from X.AI API')
     
     if (!data || !data.choices || !data.choices[0]) {
       throw new Error('Некорректный формат ответа от API')

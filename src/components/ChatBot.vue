@@ -68,7 +68,6 @@ async function providePrediction() {
   isLoading.value = true
 
   try {
-    console.log('📤 Sending request to API...')
     const response = await fetch('/api/chat', {
       method: 'POST',
       headers: {
@@ -81,8 +80,6 @@ async function providePrediction() {
       })
     })
 
-    console.log('📥 API Response status:', response.status)
-
     if (!response.ok) {
       const errorText = await response.text()
       console.error('❌ Response error:', errorText)
@@ -90,7 +87,6 @@ async function providePrediction() {
     }
 
     const data = await response.json()
-    console.log('✅ Received valid response from API')
     
     if (data.error) {
       console.error('API error:', data.error, data.details)
@@ -130,7 +126,7 @@ async function providePrediction() {
           <span role="img" aria-label="crystal ball">🔮</span>
         </div>
         <p class="tarot-prediction__loading-text">
-          Карты раскрывают свои тайны...
+          Карты раскры��ают свои тайны...
         </p>
       </div>
       
