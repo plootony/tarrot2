@@ -4,8 +4,7 @@ export default async function handler(req, res) {
   console.log('🚀 Serverless Function Started')
   console.log('📨 Request Method:', req.method)
   console.log('🔑 API Key present:', !!process.env.XAI_API_KEY)
-  console.log('📦 Request Body:', JSON.stringify(req.body, null, 2))
-
+  
   // Настраиваем CORS
   res.setHeader('Access-Control-Allow-Credentials', true)
   res.setHeader('Access-Control-Allow-Origin', '*')
@@ -27,6 +26,10 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Добавляем таймаут для fetch
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 25000) // 25 секунд
+
     console.log('📡 Sending request to X.AI API...')
     const response = await fetch('https://api.x.ai/v1/chat/completions', {
       method: 'POST',
@@ -34,33 +37,40 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${process.env.XAI_API_KEY}`
       },
-      body: JSON.stringify(req.body)
-    })
+      body: JSON.stringify(req.body),
+      signal: controller.signal
+    }).finally(() => clearTimeout(timeout))
 
     console.log('📥 X.AI Response Status:', response.status)
-    const responseText = await response.text()
-    console.log('📄 Raw Response:', responseText)
-
+    
     if (!response.ok) {
-      console.error('❌ API Error Response:', responseText)
-      throw new Error(`API Error: ${response.status} - ${responseText}`)
+      const errorText = await response.text()
+      console.error('❌ API Error Response:', errorText)
+      return res.status(response.status).json({ 
+        error: 'Ошибка API',
+        details: errorText
+      })
     }
 
-    let data
-    try {
-      data = JSON.parse(responseText)
-    } catch (e) {
-      console.error('❌ JSON Parse Error:', e)
-      throw new Error(`Invalid JSON response: ${responseText}`)
-    }
-
-    console.log('✅ Success Response:', JSON.stringify(data, null, 2))
+    const data = await response.json()
+    console.log('✅ Success Response Received')
+    
     return res.status(200).json(data)
   } catch (error) {
     console.error('❌ Error Details:', {
+      name: error.name,
       message: error.message,
       stack: error.stack
     })
+
+    // Специальная обработка ошибки таймаута
+    if (error.name === 'AbortError') {
+      return res.status(504).json({ 
+        error: 'Превышено время ожидания ответа',
+        details: 'Пожалуйста, попробуйте еще раз'
+      })
+    }
+
     return res.status(500).json({ 
       error: 'Произошла ошибка при получении предсказания',
       details: error.message

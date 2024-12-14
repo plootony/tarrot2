@@ -81,21 +81,30 @@ async function providePrediction() {
         model: 'grok-beta',
         messages: messages.value,
         temperature: 0.9
-      })
+      }),
+      timeout: 30000
     })
 
     console.log('📥 Response status:', response.status)
+    
+    if (!response.ok) {
+      const errorData = await response.json()
+      throw new Error(errorData.error || 'Неизвестная ошибка')
+    }
+
     const data = await response.json()
     console.log('📄 Response data:', data)
     
-    if (data.error) {
-      throw new Error(data.error)
+    if (!data.choices?.[0]?.message?.content) {
+      throw new Error('Некорректный формат ответа')
     }
     
     prediction.value = data.choices[0].message.content
   } catch (error) {
     console.error('❌ Error:', error)
-    prediction.value = 'Карты сейчас молчат. Пожалуйста, попробуйте еще раз через некоторое время.'
+    prediction.value = error.message === 'Превышено время ожидания ответа'
+      ? 'Карты задумались слишком надолго. Пожалуйста, попробуйте еще раз.'
+      : 'Карты сейчас молчат. Пожалуйста, попробуйте еще раз через некоторое время.'
   } finally {
     isLoading.value = false
   }
