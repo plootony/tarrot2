@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# но не игнорировать favicon
+!public/favicon.ico
