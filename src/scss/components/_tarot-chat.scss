@@ -3,6 +3,9 @@
   max-width: 1000px;
   margin: 0 auto;
   padding: $spacing-base;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   
   @include responsive(mobile) {
     padding: $spacing-small;
@@ -12,21 +15,35 @@
     @include glass-effect;
     padding: $spacing-large;
     border-radius: $border-radius-lg;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     
     @include responsive(mobile) {
       padding: $spacing-base;
     }
 
+    &__content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
     &__title {
       font-size: 1.8rem;
+      margin-bottom: $spacing-base;
       
       @include responsive(mobile) {
         font-size: 1.5rem;
+        margin-bottom: $spacing-small;
       }
     }
 
     &__text {
       font-size: 1.1rem;
+      flex: 1;
+      overflow-y: auto;
+      margin-bottom: $spacing-base;
       
       @include responsive(mobile) {
         font-size: 1rem;
@@ -49,20 +66,24 @@
 
     &__button {
       @include mystic-button;
+      margin-top: auto;
       
       @include responsive(mobile) {
         max-width: 100%;
         padding: $spacing-base;
         font-size: 1rem;
+        position: sticky;
+        bottom: 0;
       }
     }
 
     &__loader {
-      min-height: 200px; // Уменьшаем минимальную высоту на мобильных
-      
-      @include responsive(mobile) {
-        min-height: 150px;
-      }
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 150px;
     }
 
     &__crystal {

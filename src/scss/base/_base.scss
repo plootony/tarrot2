@@ -17,6 +17,10 @@ body {
   min-height: 100vh;
   padding: $spacing-large;
   box-sizing: border-box;
+  
+  @include responsive(mobile) {
+    padding: 0;
+  }
 }
 
 button {

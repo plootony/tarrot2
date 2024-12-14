@@ -1,19 +1,22 @@
 .tarot-app {
   min-height: 100vh;
-  padding: $spacing-large $spacing-base;
+  padding: $spacing-base;
+  display: flex;
+  flex-direction: column;
   
   @include responsive(mobile) {
-    padding: $spacing-base $spacing-small;
+    padding: 0;
   }
 
   &__title {
     text-align: center;
     font-size: 2.5rem;
-    margin-bottom: $spacing-large;
+    margin-bottom: $spacing-base;
+    padding: $spacing-small;
     
     @include responsive(mobile) {
       font-size: 1.8rem;
-      margin-bottom: $spacing-base;
+      margin-bottom: $spacing-small;
     }
   }
 } 

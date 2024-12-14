@@ -127,13 +127,39 @@ function confirmCardSelection() {
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .tarot-table {
+  padding: $spacing-large;
+  
+  @include responsive(mobile) {
+    padding: 0;
+  }
+
   &__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: $spacing-base;
-    padding: $spacing-large;
+    
+    @include responsive(mobile) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: $spacing-small;
+      padding: $spacing-small;
+    }
+  }
+
+  &__title {
+    @include responsive(mobile) {
+      font-size: 1.5rem;
+      padding: 0 $spacing-small;
+    }
+  }
+
+  &__description {
+    @include responsive(mobile) {
+      font-size: 1rem;
+      padding: 0 $spacing-small;
+      margin-bottom: $spacing-base;
+    }
   }
 }
 
@@ -186,6 +212,10 @@ function confirmCardSelection() {
     .tarot-card__inner {
       transform: rotateY(180deg);
     }
+  }
+
+  @include responsive(mobile) {
+    aspect-ratio: 2/3;
   }
 }
 
