@@ -44,8 +44,6 @@ function handleCardSelect(card) {
 }
 
 async function providePrediction() {
-  console.log('🎴 Starting prediction request...')
-  
   const predictionPrompt = `
     Имя: ${userData.value.name}
     Дата рождения: ${userData.value.birthDate}
@@ -80,30 +78,18 @@ async function providePrediction() {
       })
     })
 
-    if (!response.ok) {
-      const errorText = await response.text()
-      console.error('❌ Response error:', errorText)
-      throw new Error('Ошибка при получении ответа от сервера')
-    }
-
     const data = await response.json()
     
     if (data.error) {
-      console.error('API error:', data.error, data.details)
       throw new Error(data.error)
-    }
-    
-    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
-      throw new Error('Некорректный формат ответа')
     }
     
     prediction.value = data.choices[0].message.content
   } catch (error) {
-    console.error('❌ Error:', error)
-    prediction.value = `Карты сейчас молчат. ${error.message || 'Пожалуйста, попробуйте еще раз через некоторое время.'}`
+    console.error('Error:', error)
+    prediction.value = 'Карты сейчас молчат. Пожалуйста, попробуйте еще раз через некоторое время.'
   } finally {
     isLoading.value = false
-    console.log('🏁 Prediction request completed')
   }
 }
 </script>
@@ -126,7 +112,7 @@ async function providePrediction() {
           <span role="img" aria-label="crystal ball">🔮</span>
         </div>
         <p class="tarot-prediction__loading-text">
-          Карты раскры��ают свои тайны...
+          Карты раскрывают свои тайны...
         </p>
       </div>
       
