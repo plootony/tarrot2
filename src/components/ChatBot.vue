@@ -44,19 +44,11 @@ function handleCardSelect(card) {
 }
 
 async function providePrediction() {
-  const predictionPrompt = `
-    Имя: ${userData.value.name}
-    Дата рождения: ${userData.value.birthDate}
-    Время рождения: ${userData.value.birthTime}
-    Вопрос: ${userData.value.question}
-    
-    Выбранная карта: ${selectedCard.value.name} ${selectedCard.value.isReversed ? '(в перевернутом положении)' : ''}
-    Значение карты: ${selectedCard.value.currentMeaning}
-    
-    Пожалуйста, дай развернутое предсказание, основываясь на этих данных. ${
-      selectedCard.value.isReversed ? 'Обрати особое внимание, что карта выпала в перевернутом положении.' : ''
-    }
-  `
+  const predictionPrompt = `Имя: ${userData.value.name}
+Карта: ${selectedCard.value.name} ${selectedCard.value.isReversed ? '(↓)' : '(↑)'}
+Вопрос: ${userData.value.question}
+
+Дай краткое предсказание на основе выпавшей карты ${selectedCard.value.isReversed ? 'в перевернутом положении' : ''}.`
 
   messages.value.push({
     role: 'user',
@@ -66,13 +58,13 @@ async function providePrediction() {
   isLoading.value = true
 
   try {
-    console.log('📤 Sending request with data:', {
+    console.log(' Sending request with data:', {
       model: 'grok-beta',
       messages: messages.value,
-      temperature: 0.9
+      temperature: 0.7, // Уменьшаем температуру для более быстрого ответа
+      max_tokens: 500 // Ограничиваем длину ответа
     })
 
-    // Добавляем Promise.race для таймаута на клиенте
     const timeoutPromise = new Promise((_, reject) => {
       setTimeout(() => reject(new Error('CLIENT_TIMEOUT')), 40000)
     })
@@ -85,7 +77,10 @@ async function providePrediction() {
       body: JSON.stringify({
         model: 'grok-beta',
         messages: messages.value,
-        temperature: 0.9
+        temperature: 0.7,
+        max_tokens: 500,
+        presence_penalty: 0.1,
+        frequency_penalty: 0.1
       })
     })
 
